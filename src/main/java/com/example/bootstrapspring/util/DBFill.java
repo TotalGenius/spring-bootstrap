@@ -20,8 +20,6 @@ public class DBFill {
     private UserService userService;
     @Autowired
     RoleService roleService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
 
     @PostConstruct
@@ -32,12 +30,7 @@ public class DBFill {
         User user3 = new User("user3", "user3", 23, "user3", "user3");
         User user4 = new User("user4", "user4", 41, "user4", "user4");
         User user5 = new User("user5", "user5", 25, "user5", "user5");
-        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
-        user1.setPassword(passwordEncoder.encode(user1.getPassword()));
-        user2.setPassword(passwordEncoder.encode(user2.getPassword()));
-        user3.setPassword(passwordEncoder.encode(user3.getPassword()));
-        user4.setPassword(passwordEncoder.encode(user4.getPassword()));
-        user5.setPassword(passwordEncoder.encode(user5.getPassword()));
+
 
         Role adminRole = new Role();
         adminRole.setRole("ROLE_ADMIN");

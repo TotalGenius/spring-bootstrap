@@ -20,29 +20,13 @@ import java.util.List;
 public class AppController {
     private final UserService userService;
     private final RoleService roleService;
-    private final PasswordEncoder passwordEncoder;
 
-    public AppController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
+    public AppController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-        this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/user")
-    public ModelAndView userPage(Model model, Principal principal) {
-        ModelAndView modelAndView = new ModelAndView("user-page");
-        model.addAttribute("user", userService.getByUserName(principal.getName()).get());
-        return modelAndView;
-    }
 
-    @GetMapping("/admin")
-    public ModelAndView adminPage(Model model, Principal principal) {
-        ModelAndView modelAndView = new ModelAndView("admin-page");
-        model.addAttribute("user", userService.getByUserName(principal.getName()).get());
-        model.addAttribute("AllUsers", userService.getAll());
-        model.addAttribute("roleUser", roleService.getAll());
-        return modelAndView;
-    }
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
@@ -61,14 +45,12 @@ public class AppController {
 
     @PostMapping("/users")
     public ResponseEntity<HttpStatus> saveNewUser(@RequestBody User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PutMapping("/users")
     public ResponseEntity<HttpStatus> updateUser(@RequestBody User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
         return ResponseEntity.ok(HttpStatus.OK);
     }
